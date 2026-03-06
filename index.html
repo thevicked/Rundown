@@ -142,10 +142,16 @@
         window.RufflePlayer.config = {
             "autoplay": "on",           // "on", "off", or "auto"
             "unmuteOverlay": "hidden",  // "hidden" or "visible"
-            "warnOnUnsupportedContent": false
-        };
-    </script>
-
+            "warnOnUnsupportedContent": false,
+    "letterbox": "on",          // or "fullscreen" to add black bars instead of stretching
+    "scale": "showAll",         // Default – scales to fit, adds letterbox/pillarbox if needed
+    // Alternatives:
+    // "exactFit"  → stretches to fill (may distort)
+    // "noBorder"  → scales up, crops edges if needed
+    // "noScale"   → keeps original size (often causes cutoffs)
+    "quality": "high"
+  };
+</script>
 
 </body>
 </html>
