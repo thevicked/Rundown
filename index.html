@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Flash Game</title>
+    <style>
+        body { margin:0; background:#000; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; color:#fff; }
+        h1 { margin:20px; }
+        .container { border:2px solid #444; background:#111; padding:10px; }
+    </style>
+    <!-- to load the latest Ruffle from CDN -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+</head>
+<body>
+    <h1>Run Down</h1>
+    
+    <div class="container">
+        <!-- Ruffle will automatically replace this embed with itself -->
+        <embed src="Run Down.swf" width="800" height="600" quality="high" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash">
+    </div>
+
+    <!-- Optional: basic config (autoplay, no unmute overlay, etc.) -->
+    <script>
+        window.RufflePlayer.config = {
+            "autoplay": "on",           // "on", "off", or "auto"
+            "unmuteOverlay": "hidden",  // "hidden" or "visible"
+            "warnOnUnsupportedContent": false
+        };
+    </script>
+</body>
+</html>
