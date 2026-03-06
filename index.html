@@ -12,23 +12,6 @@
     <!-- to load the latest Ruffle from CDN -->
     <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 </head>
-<body>
-    <h1>Run Down</h1>
-    
-    <div class="container">
-        <!-- Ruffle will automatically replace this embed with itself -->
-        <embed src="Run Down.swf" width="320" height="240" quality="high" allowfullscreen="false" allowscriptaccess="always" type="application/x-shockwave-flash">
-    </div>
-
-    <!-- Optional: basic config (autoplay, no unmute overlay, etc.) -->
-    <script>
-        window.RufflePlayer.config = {
-            "autoplay": "on",           // "on", "off", or "auto"
-            "unmuteOverlay": "hidden",  // "hidden" or "visible"
-            "warnOnUnsupportedContent": false
-        };
-    </script>
-
 
 
 <!-- On-screen arrows – show only on mobile/small screens -->
@@ -142,5 +125,25 @@
     });
   });
 </script>
+
+
+<body>
+    <h1>Run Down</h1>
+    
+    <div class="container">
+        <!-- Ruffle will automatically replace this embed with itself -->
+        <embed src="Run Down.swf" width="320" height="240" quality="high" allowfullscreen="false" allowscriptaccess="always" type="application/x-shockwave-flash">
+    </div>
+
+    <!-- Optional: basic config (autoplay, no unmute overlay, etc.) -->
+    <script>
+        window.RufflePlayer.config = {
+            "autoplay": "on",           // "on", "off", or "auto"
+            "unmuteOverlay": "hidden",  // "hidden" or "visible"
+            "warnOnUnsupportedContent": false
+        };
+    </script>
+
+
 </body>
 </html>
