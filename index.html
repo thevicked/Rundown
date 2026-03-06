@@ -96,12 +96,51 @@
 
 <body>
     <h1>Run Down</h1>
-    
-    <div class="container">
-        <!-- Ruffle will automatically replace this embed with itself -->
-        <embed src="Run Down.swf" width="480" height="320" quality="high" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash">
-    </div>
 
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    height: 100vh;
+    overflow: hidden; /* no scrollbars */
+    font-family: sans-serif;
+    color: #fff;
+  }
+  #game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh; /* full screen height */
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ruffle-embed, object, embed {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  /* Optional: hide bars on mobile for more space */
+  @media (orientation: portrait) {
+    #game-container { padding: 0; }
+  }
+</style>
+
+<div id="game-container">
+  <embed src="Run Down.swf" 
+         width="480" height="320"  <!-- your original size, but CSS overrides it -->
+         quality="high" 
+         allowfullscreen="true" 
+         allowscriptaccess="always" 
+         type="application/x-shockwave-flash">
+</div>
+    
+    
     <!-- Optional: basic config (autoplay, no unmute overlay, etc.) -->
     <script>
         window.RufflePlayer.config = {
