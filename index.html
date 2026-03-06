@@ -29,25 +29,118 @@
         };
     </script>
 
-<!-- On-screen arrows for mobile -->
-<div id="mobile-controls" style="position:fixed; bottom:20px; left:0; right:0; display:flex; justify-content:center; gap:60px; pointer-events:none; z-index:10;">
-  <button onclick="pressKey(37)" style="font-size:40px; width:80px; height:80px; pointer-events:auto;">←</button>
-  <button onclick="pressKey(38)" style="font-size:40px; width:80px; height:80px; pointer-events:auto;">↑</button>
-  <button onclick="pressKey(40)" style="font-size:40px; width:80px; height:80px; pointer-events:auto;">↓</button>
-  <button onclick="pressKey(39)" style="font-size:40px; width:80px; height:80px; pointer-events:auto;">→</button>
+
+
+<!-- On-screen arrows – show only on mobile/small screens -->
+<style>
+  @media (min-width: 768px) {
+    #mobile-controls { display: none !important; }
+  }
+  #mobile-controls {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    z-index: 9999;
+    pointer-events: none; /* so taps go through to game if needed */
+  }
+  .arrow-btn {
+    font-size: 50px;
+    width: 90px;
+    height: 90px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: 2px solid #888;
+    border-radius: 20px;
+    pointer-events: auto;
+    touch-action: manipulation; /* better mobile feel */
+  }
+</style>
+
+<div id="mobile-controls">
+  <button class="arrow-btn" data-key="37">←</button>
+  <button class="arrow-btn" data-key="38">↑</button>
+  <button class="arrow-btn" data-key="40">↓</button>
+  <button class="arrow-btn" data-key="39">→</button>
 </div>
 
 <script>
-function pressKey(keyCode) {
-  const ruffle = document.querySelector("ruffle-embed") || document.querySelector("object") || document.body;
-  ruffle.focus();
-  
-  // Simulate key down + up
-  const down = new KeyboardEvent("keydown", {keyCode: keyCode, bubbles: true});
-  const up   = new KeyboardEvent("keyup",   {keyCode: keyCode, bubbles: true});
-  ruffle.dispatchEvent(down);
-  setTimeout(() => ruffle.dispatchEvent(up), 100);  // hold briefly
-}
+  // Find the Ruffle player element (works with both <ruffle-embed> and <object>/<embed>)
+  function getRufflePlayer() {
+    return document.querySelector("ruffle-embed") ||
+           document.querySelector("object[type='application/x-shockwave-flash']") ||
+           document.querySelector("embed[type='application/x-shockwave-flash']") ||
+           document.body; // fallback
+  }
+
+  // Simulate key press (hold for \~150ms then release)
+  function simulateKey(keyCode, down = true) {
+    const player = getRufflePlayer();
+    if (!player) return;
+
+    player.focus(); // Critical: Ruffle requires focus/pointer interaction
+
+    const eventType = down ? "keydown" : "keyup";
+    const event = new KeyboardEvent(eventType, {
+      key: getKeyFromCode(keyCode),
+      code: getCodeFromKeyCode(keyCode),
+      keyCode: keyCode,
+      which: keyCode,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+
+    player.dispatchEvent(event);
+  }
+
+  // Helper: map keyCode to key/code strings (needed for modern events)
+  function getKeyFromCode(code) {
+    if (code === 37) return "ArrowLeft";
+    if (code === 38) return "ArrowUp";
+    if (code === 39) return "ArrowRight";
+    if (code === 40) return "ArrowDown";
+    return "";
+  }
+  function getCodeFromKeyCode(code) {
+    if (code === 37) return "ArrowLeft";
+    if (code === 38) return "ArrowUp";
+    if (code === 39) return "ArrowRight";
+    if (code === 40) return "ArrowDown";
+    return "";
+  }
+
+  // Attach to buttons (use mousedown/touchstart for press-hold feel)
+  document.querySelectorAll('.arrow-btn').forEach(btn => {
+    const keyCode = parseInt(btn.dataset.key);
+
+    // Press down
+    btn.addEventListener('mousedown', () => simulateKey(keyCode, true));
+    btn.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // stop scroll/zoom
+      simulateKey(keyCode, true);
+    });
+
+    // Release
+    btn.addEventListener('mouseup', () => simulateKey(keyCode, false));
+    btn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      simulateKey(keyCode, false);
+    });
+
+    // Optional: hold repeat (for continuous movement)
+    let interval;
+    btn.addEventListener('mousedown', () => {
+      interval = setInterval(() => simulateKey(keyCode, true), 80);
+    });
+    btn.addEventListener('mouseup mouseleave touchend', () => {
+      clearInterval(interval);
+      simulateKey(keyCode, false);
+    });
+  });
 </script>
 </body>
 </html>
