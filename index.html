@@ -17,7 +17,7 @@
     
     <div class="container">
         <!-- Ruffle will automatically replace this embed with itself -->
-        <embed src="Run Down.swf" width="800" height="600" quality="high" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash">
+        <embed src="Run Down.swf" width="640" height="480" quality="high" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash">
     </div>
 
     <!-- Optional: basic config (autoplay, no unmute overlay, etc.) -->
@@ -28,5 +28,26 @@
             "warnOnUnsupportedContent": false
         };
     </script>
+
+<!-- On-screen arrows for mobile -->
+<div id="mobile-controls" style="position:fixed; bottom:20px; left:0; right:0; display:flex; justify-content:center; gap:60px; pointer-events:none; z-index:10;">
+  <button onclick="pressKey(37)" style="font-size:40px; width:80px; height:80px; pointer-events:auto;">←</button>
+  <button onclick="pressKey(38)" style="font-size:40px; width:80px; height:80px; pointer-events:auto;">↑</button>
+  <button onclick="pressKey(40)" style="font-size:40px; width:80px; height:80px; pointer-events:auto;">↓</button>
+  <button onclick="pressKey(39)" style="font-size:40px; width:80px; height:80px; pointer-events:auto;">→</button>
+</div>
+
+<script>
+function pressKey(keyCode) {
+  const ruffle = document.querySelector("ruffle-embed") || document.querySelector("object") || document.body;
+  ruffle.focus();
+  
+  // Simulate key down + up
+  const down = new KeyboardEvent("keydown", {keyCode: keyCode, bubbles: true});
+  const up   = new KeyboardEvent("keyup",   {keyCode: keyCode, bubbles: true});
+  ruffle.dispatchEvent(down);
+  setTimeout(() => ruffle.dispatchEvent(up), 100);  // hold briefly
+}
+</script>
 </body>
 </html>
